@@ -1,27 +1,9 @@
+
 {
     "version": "2.0.0",
     "tasks": [
         {
-            // 3. TAREA PRINCIPAL Y POR DEFECTO
-            // Esta es la tarea que ejecutarás con Ctrl+Shift+B.
-            "label": "Compilar y Ejecutar",
-            "dependsOn": [
-                "Ensamblar",
-                "Empaquetar y Ejecutar"
-            ],
-            // "sequence" asegura que las tareas se ejecutan en orden.
-            "dependsOrder": "sequence",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            // Esta tarea principal no genera errores por sí misma, solo coordina.
-            "problemMatcher": []
-        },
-        {
-            // 1. TAREA DE ENSAMBLADO
-            // Se dedica únicamente a compilar el fuente de ASM.
-            "label": "Ensamblar",
+            "label": "Ensamblar con sjasmplus",
             "type": "shell",
             "command": "sjasmplus",
             "args": [
@@ -30,6 +12,10 @@
                 "--lst=${workspaceFolder}/build/main.lst",
                 "--sym=${workspaceFolder}/build/main.sym"
             ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
             "presentation": {
                 "echo": true,
                 "reveal": "always",
@@ -38,23 +24,19 @@
                 "showReuseMessage": false,
                 "clear": true
             },
-            // El detector de errores solo se aplica aquí, donde se compila.
             "problemMatcher": [
                 "$errmatcher-sjasmplus"
             ]
         },
         {
-            // 2. TAREA PARA CREAR DISCO Y EMULAR
-            // Ejecuta el script que ya hemos mejorado.
-            "label": "Empaquetar y Ejecutar",
+            "label": "crear sdk",
             "type": "shell",
             "command": "${workspaceFolder}/scripts/create_dsk.sh",
-            "presentation": {
-                "reveal": "always",
-                "panel": "shared"
-            },
-            // No necesita un detector de errores de ensamblado.
-            "problemMatcher": []
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+            // Eliminar la línea "problemMatcher": ["$errmatcher-sjasmplus"]
         }
     ]
 }

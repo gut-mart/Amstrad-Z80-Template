@@ -23,8 +23,8 @@ cd build
 # 3. EXTRAER DIRECCIONES DE INICIO Y CARGA
 echo "--- Extrayendo direcciones desde 'main.sym' ---"
 # Extraemos las direcciones directamente usando grep, awk y cut. Es más eficiente que los bucles.
-direcc_inicio=$(grep 'START' main.sym | awk '{print $3}' | cut -c 7-10)
-direcc_carga=$(grep 'LOAD_ADRESS:' main.sym | awk '{print $3}' | cut -c 7-10)
+direcc_inicio=$(grep 'START' main.sym | awk '{print $3}' | sed 's/0x0000//')
+direcc_carga=$(grep 'LOAD_ADDRESS:' main.sym | awk '{print $3}' | sed 's/0x0000//')
 
 # 4. VERIFICAR QUE LAS DIRECCIONES FUERON ENCONTRADAS
 # Si alguna de las variables está vacía, el grep falló. Mostramos un error y salimos.

@@ -1,37 +1,47 @@
-; ==========================================================
-; Programa para Amstrad CPC 6128
-; 
-; 
-;
-; Ensamblador: SJAsmPlus
-; ==========================================================
+             
+ DEVICE AMSTRADCPC6128 ;; Especifica que es para Amstrad CPC
+LOAD_ADDRESS EQU $4500
 
-    DEVICE AMSTRADCPC6128     ; Indica al ensamblador que es para un CPC 6128
-LOAD_ADRESS EQU $4000         ; Asigna a la variable LOAD_ADRESS la dirección de memoria.
-
-                             
-    ORG LOAD_ADRESS           ; Origen del programa en la memoria RAM
-	;************* Sección de Datos **************
-
-
-
-
+ ORG LOAD_ADDRESS          ; Cargar en dirección hexadecimal 4000
 
 START:
+        ; Establecer modo de video 1 (320x200, 4 colores)
+        LD A, 1
+        CALL $BC0E          ; SCR SET MODE
 
-   ;***********sección de instrucciones**********
-   ;
-   ;
-   ;
-   ;
-   ;
-   ;
-   ;
-   ;
-    END START
-    
+        ; Definir la paleta - establecer pen 1 como rojo
+        LD A, 1             ; Pen number (1)
+        LD B, 6             ; Color rojo brillante en firmware CPC
+        CALL $BC32          ; SCR SET INK
 
-	
+        ; Establecer el pen gráfico a color 1 (rojo)
+        LD A, 1             ; Pen number para gráficos
+        CALL $BBDE          ; GRA SET PEN
 
+        ; Dibujar punto en posición (80, 80)
+        LD DE, 80           ; Coordenada X
+        LD HL, 80           ; Coordenada Y
+        CALL $BBEA          ; GRA PLOT ABSOLUTE
 
+        ; Hacer el punto más visible dibujando un pequeño cuadrado
+        LD DE, 81           ; X+1
+        LD HL, 80           ; Y
+        CALL $BBEA          ; GRA PLOT ABSOLUTE
+        
+        LD DE, 80           ; X
+        LD HL, 81           ; Y+1
+        CALL $BBEA          ; GRA PLOT ABSOLUTE
+        
+        LD DE, 81           ; X+1
+        LD HL, 81           ; Y+1
+        CALL $BBEA          ; GRA PLOT ABSOLUTE
 
+        ; Bucle infinito para mantener el programa activo
+LOOP:
+        HALT                ; Esperar al siguiente frame
+        JR LOOP
+
+        ; Punto de entrada para BASIC
+        ; Para ejecutar desde BASIC: CALL $4000
+        
+        END START
