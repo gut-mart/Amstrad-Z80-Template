@@ -1,7 +1,7 @@
              
  DEVICE AMSTRADCPC6128 ;; Especifica que se manejará la arquitectura
                        ;; para la computadora Amstrad CPC6128
-LOAD_ADDRESS EQU $8000 ;; Dirección donde se cargara el código en memoria.
+LOAD_ADDRESS EQU $4000 ;; Dirección donde se cargara el código en memoria.
                        ;; IMPORTANTE LA ETIQUETA "LOAD_ADDRESS" SIEMPRE DEBE 
                        ;; UTILIZARSE PARA INDICAR LA DIRECCION DE CARGA DEL 
                        ;; CODIGO DEL PROGRAMA EN LA MEMORIA. La dirección por 
@@ -21,7 +21,7 @@ LOAD_ADDRESS EQU $8000 ;; Dirección donde se cargara el código en memoria.
 
      
 
-START:
+START: 
  ;
  ;
  ;

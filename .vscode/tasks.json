@@ -36,7 +36,7 @@
                 "kind": "build",
                 "isDefault": true
             }
-            // Eliminar la línea "problemMatcher": ["$errmatcher-sjasmplus"]
+          
         }
     ]
 }
