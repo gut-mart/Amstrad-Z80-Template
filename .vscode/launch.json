@@ -1,13 +1,37 @@
 {
-    
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "dezog",
+            "request": "launch",
+            "name": "MAME",
+            "remoteType": "mame",
+            "mame": {
+                "socket": "localhost:12000"
+            },
+            "rootFolder": "${workspaceFolder}",
+            
+            "topOfStack": "0x0000",//Direccion del puntero de pila (Stack Pointer).
+                                   //Pendiente de automatizar para que esta dirección
+                                   // se extraiga del archivo "main.asm" y se modifique
+                                   //la propiedadtopOfStack con dicho valor.
+            "startAutomatically": true,//Esta propiedad indica al depurador que 
+                                       // debe iniciar la ejecución del programa
+                                       // automáticamente tan pronto como se inicie
+                                       //  la sesión de depuración, sin esperar a que 
+                                       // el usuario presione "Play" o "Continuar".
+            "sjasmplus": [
+                {
+                    "path": "${workspaceFolder}/build/main.sld"
+                }
+            ]
+        },
+        {
             "type": "bashdb",
             "request": "launch",
-            "name": "Bash-Debug (select script from list of sh files)",
+            "name": "Bash-Debug (create_dsk.sh)",
             "cwd": "${workspaceFolder}",
-            "program": "${create_dsk.sh}",
+            "program": "${workspaceFolder}/scripts/create_dsk.sh",
             "args": []
         },
         {

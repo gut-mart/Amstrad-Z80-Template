@@ -1,4 +1,3 @@
-
 {
     "version": "2.0.0",
     "tasks": [
@@ -7,10 +6,12 @@
             "type": "shell",
             "command": "sjasmplus",
             "args": [
+                "--fullpath",
                 "${workspaceFolder}/src/main.asm",
                 "--raw=${workspaceFolder}/build/main.bin",
                 "--lst=${workspaceFolder}/build/main.lst",
-                "--sym=${workspaceFolder}/build/main.sym"
+                "--sym=${workspaceFolder}/build/main.sym",
+                "--sld=${workspaceFolder}/build/main.sld"
             ],
             "group": {
                 "kind": "build",
