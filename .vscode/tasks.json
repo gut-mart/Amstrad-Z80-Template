@@ -37,7 +37,20 @@
                 "kind": "build",
                 "isDefault": true
             }
-          
+        },
+        {
+            "label": "Lanzar WinAPE",
+            "type": "shell",
+            "command": "wine",
+            "args": [
+                "/home/isidro/Datos/Z80/cpctelera/cpctelera/tools/winape/WinApe.exe",
+                "z:disco.dsk",
+                "/A:main.bin"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/build"
+            },
+            "problemMatcher": []
         }
     ]
 }

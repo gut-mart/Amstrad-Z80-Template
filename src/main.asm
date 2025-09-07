@@ -29,10 +29,41 @@ START:
  ;
  ;
  ;
+ ;programa de ejemplo para Amstrad CPC6128
+ ;pulsar ctrl+shift+B y selecionar ensamblar con sjasmplus
+ ;volver a pulsar ctrl+shift+B y selecionar crear disco .dsk
  ;
- ;
+ ; --- Poner modo 2 (80x25) y limpiar pantalla ---
+    LD A, 2
+    CALL $BC0E   ; SCR SET MODE
+    CALL $BB6C   ; TXT CLEAR WINDOW
+
+    ; --- Posicionar cursor en el centro (40, 12) ---
+    LD H, 40    ; Columna
+    LD L, 12    ; Fila
+    CALL $BB75  ; TXT SET CURSOR
+
+    ; --- Imprimir la letra 'A' ---
+    LD A, 'A'
+    CALL $BB5A  ; TXT OUTPUT
+    LD A, 'B'
+    LD A, 'C'
+    CALL $BB5A  ; TXT OUTPUT
+    CALL $BB5A  ; TXT OUTPUT
 
 
+    ; --- Esperar a que se pulse una tecla ---
+    CALL $BB18  ; KM_WAIT_KEY
+    RET
+;
+;
+;
+;
+;
+;
+;
+;
+;
         END START     ;;  END START indica cual es el punto de entrada.
                       ;;  IMPORTANTE LA ETIQUETA "START:" SIEMPRE DEBE 
                       ;;  UTILIZARSE PARA INDICAR LA DIRECCION DONDE DEBE COMENZAR EL
@@ -43,5 +74,4 @@ START:
    
 //En este punto se trata de integrar  Dezog y MAME para depurar el código ensamblador
 //para probar primero debes de lanzar mame desde la linea de comandos 
-// mame cpc6128 -flop1 "/home/isidro/Datos/Z80/Proyectos_ASM/Amstrad/Amstrad cpc-6128k/prg/build/disco.dsk" -debug -debugger gdbstub -debugger_port 12000
- 
+// /home/isidro/Datos/Z80/Proyectos_ASM/Amstrad/Amstrad cpc-6128k/Amstrad-Z80-Tempalate/build/disco.dsk" -debug -debugger gdbstub -debugger_port 12000
