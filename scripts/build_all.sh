@@ -1,18 +1,31 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-cd "$ROOT"
+require_cmd() {
+  command -v "$1" >/dev/null 2>&1 || {
+    echo "ERROR: falta '$1' en PATH." >&2
+    exit 127
+  }
+}
 
-mkdir -p build
+require_cmd sjasmplus
+require_cmd iDSK
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+BUILD="$ROOT/build"
+mkdir -p "$BUILD"
 
 sjasmplus --fullpath "$ROOT/src/main.asm" \
-  --raw="$ROOT/build/main.bin" \
-  --lst="$ROOT/build/main.lst" \
-  --sym="$ROOT/build/main.sym" \
-  --sld="$ROOT/build/main.sld"
+  --raw="$BUILD/main.bin" \
+  --lst="$BUILD/main.lst" \
+  --sym="$BUILD/main.sym" \
+  --sld="$BUILD/main.sld"
 
-chmod +x "$ROOT/scripts/create_dsk.sh"
-"$ROOT/scripts/create_dsk.sh"
+[[ -f "$ROOT/scripts/create_dsk.sh" ]] || {
+  echo "ERROR: falta scripts/create_dsk.sh" >&2
+  exit 1
+}
+
+bash "$ROOT/scripts/create_dsk.sh"
 
 echo "OK: generado build/main.bin y build/disco.dsk"

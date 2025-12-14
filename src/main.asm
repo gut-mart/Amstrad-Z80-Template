@@ -46,12 +46,14 @@ START:
     ; --- Imprimir la letra 'A' ---
     LD A, 'A'
     CALL $BB5A  ; TXT OUTPUT
+
     LD A, 'B'
+    CALL $BB5A  ; TXT OUTPUT
+
     LD A, 'C'
     CALL $BB5A  ; TXT OUTPUT
-    CALL $BB5A  ; TXT OUTPUT
 
-
+   
     ; --- Esperar a que se pulse una tecla ---
     CALL $BB18  ; KM_WAIT_KEY
     RET
