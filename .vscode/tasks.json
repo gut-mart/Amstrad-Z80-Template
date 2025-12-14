@@ -32,55 +32,61 @@
         {
             "label": "Build + DSK",
             "type": "shell",
-            "command": "${workspaceFolder}/scripts/build_all.sh",
+            "command": "bash",
+            "args": [
+                "${workspaceFolder}/scripts/build_all.sh"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
             "group": {
                 "kind": "build",
                 "isDefault": true
-            }
+            },
+            "problemMatcher": []
         },
         {
             "label": "Build + DSK + WinAPE (autorun)",
+            "dependsOrder": "sequence",
             "dependsOn": [
                 "Build + DSK",
                 "Lanzar WinAPE (autorun)"
             ],
-            "dependsOrder": "sequence",
             "problemMatcher": []
         },
         {
             "label": "Crear DSK",
             "type": "shell",
-            "command": "${workspaceFolder}/scripts/create_dsk.sh",
-            "group": {
-                "kind": "build",
-                "isDefault": false
-            }
+            "command": "bash",
+            "args": [
+                "${workspaceFolder}/scripts/create_dsk.sh"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
         },
         {
             "label": "Lanzar WinAPE",
             "type": "shell",
-            "command": "wine",
+            "command": "bash",
             "args": [
-                "/home/isidro/Datos/Z80/cpctelera/cpctelera/tools/winape/WinApe.exe",
-                "z:disco.dsk",
-                "/A:main.bin"
+                "${workspaceFolder}/scripts/launch_winape.sh"
             ],
             "options": {
-                "cwd": "${workspaceFolder}/build"
+                "cwd": "${workspaceFolder}"
             },
             "problemMatcher": []
         },
         {
             "label": "Lanzar WinAPE (autorun)",
             "type": "shell",
-            "command": "wine",
+            "command": "bash",
             "args": [
-                "/home/isidro/Datos/Z80/cpctelera/cpctelera/tools/winape/WinApe.exe",
-                "z:disco.dsk",
-                "/A:main.bin"
+                "${workspaceFolder}/scripts/launch_winape.sh"
             ],
             "options": {
-                "cwd": "${workspaceFolder}/build",
+                "cwd": "${workspaceFolder}",
                 "env": {
                     "WINAPE_AUTORUN": "1"
                 }

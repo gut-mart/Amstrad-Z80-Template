@@ -1,27 +1,66 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+require_cmd() {
+  command -v "$1" >/dev/null 2>&1 || {
+    echo "ERROR: falta '$1' en PATH." >&2
+    exit 127
+  }
+}
+
+require_cmd iDSK
+require_cmd awk
+
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-cd "$ROOT/build"
+BUILD="$ROOT/build"
 
-# Comprobaciones básicas
-[[ -f main.bin ]] || { echo "Falta build/main.bin"; exit 1; }
-[[ -f main.sym ]] || { echo "Falta build/main.sym"; exit 1; }
+BIN="$BUILD/main.bin"
+DSK="$BUILD/disco.dsk"
+SYM="$BUILD/main.sym"
 
-# Extraer direcciones desde main.sym (ajústalo si tus símbolos se llaman distinto)
-direcc_inicio=$(grep -E '^START\b' main.sym | awk '{print $3}' | sed 's/0x0000//')
-direcc_carga=$(grep -E '^LOAD_ADDRESS\b' main.sym | awk '{print $3}' | sed 's/0x0000//')
+[[ -f "$BIN" ]] || { echo "ERROR: falta $BIN (ejecuta antes el ensamblado)" >&2; exit 1; }
 
-if [[ -z "${direcc_inicio:-}" || -z "${direcc_carga:-}" ]]; then
-  echo "No se encontraron START o LOAD_ADDRESS en build/main.sym"
-  echo "Revisa los símbolos disponibles con: head -n 50 build/main.sym"
-  exit 1
+get_sym_hex() {
+  local sym="$1"
+  [[ -f "$SYM" ]] || return 1
+  awk -v S="$sym" '
+    $1==S {
+      for (i=NF; i>=1; --i) {
+        if ($i ~ /^0x[0-9A-Fa-f]+$/) { print $i; exit }
+        if ($i ~ /^&[0-9A-Fa-f]+$/)  { print $i; exit }
+        if ($i ~ /^[0-9A-Fa-f]{4,8}$/){ print $i; exit }
+      }
+    }
+  ' "$SYM"
+}
+
+hex_to_dec() {
+  local x="${1#0x}"
+  x="${x#&}"
+  echo $((16#$x))
+}
+
+LOAD_DEC=""
+EXEC_DEC=""
+
+if x="$(get_sym_hex LOAD_ADDRESS)"; then LOAD_DEC="$(hex_to_dec "$x")"; fi
+if x="$(get_sym_hex START)"; then EXEC_DEC="$(hex_to_dec "$x")"; fi
+
+if [[ -z "${LOAD_DEC}" ]]; then
+  LOAD_DEC=16384  # 0x4000
+  echo "WARN: no pude leer LOAD_ADDRESS en $SYM; uso 0x4000" >&2
+fi
+if [[ -z "${EXEC_DEC}" ]]; then
+  EXEC_DEC=16384  # 0x4000
+  echo "WARN: no pude leer START en $SYM; uso 0x4000" >&2
 fi
 
+mkdir -p "$BUILD"
+
 echo "Creando DSK..."
-iDSK -n disco.dsk
+iDSK -n "$DSK"
 
-echo "Insertando main.bin (carga=$direcc_carga, ejec=$direcc_inicio)..."
-iDSK disco.dsk -i main.bin -t 1 -c "$direcc_carga" -e "$direcc_inicio"
+echo "Insertando main.bin (carga=$LOAD_DEC, ejec=$EXEC_DEC)..."
+iDSK "$DSK" -i "$BIN" -t 1 -c "$LOAD_DEC" -e "$EXEC_DEC"
 
-echo "OK: build/disco.dsk listo"
+echo "OK: $DSK listo"
