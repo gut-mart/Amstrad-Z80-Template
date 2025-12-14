@@ -15,7 +15,7 @@
             ],
             "group": {
                 "kind": "build",
-                "isDefault": true
+                "isDefault": false
             },
             "presentation": {
                 "echo": true,
@@ -30,12 +30,21 @@
             ]
         },
         {
-            "label": "crear sdk",
+            "label": "Build + DSK",
+            "type": "shell",
+            "command": "${workspaceFolder}/scripts/build_all.sh",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Crear DSK",
             "type": "shell",
             "command": "${workspaceFolder}/scripts/create_dsk.sh",
             "group": {
                 "kind": "build",
-                "isDefault": true
+                "isDefault": false
             }
         },
         {
