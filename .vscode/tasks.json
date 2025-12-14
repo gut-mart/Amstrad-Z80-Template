@@ -39,6 +39,15 @@
             }
         },
         {
+            "label": "Build + DSK + WinAPE (autorun)",
+            "dependsOn": [
+                "Build + DSK",
+                "Lanzar WinAPE (autorun)"
+            ],
+            "dependsOrder": "sequence",
+            "problemMatcher": []
+        },
+        {
             "label": "Crear DSK",
             "type": "shell",
             "command": "${workspaceFolder}/scripts/create_dsk.sh",
@@ -58,6 +67,23 @@
             ],
             "options": {
                 "cwd": "${workspaceFolder}/build"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Lanzar WinAPE (autorun)",
+            "type": "shell",
+            "command": "wine",
+            "args": [
+                "/home/isidro/Datos/Z80/cpctelera/cpctelera/tools/winape/WinApe.exe",
+                "z:disco.dsk",
+                "/A:main.bin"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/build",
+                "env": {
+                    "WINAPE_AUTORUN": "1"
+                }
             },
             "problemMatcher": []
         }
