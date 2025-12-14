@@ -46,15 +46,6 @@
             "problemMatcher": []
         },
         {
-            "label": "Build + DSK + WinAPE (autorun)",
-            "dependsOrder": "sequence",
-            "dependsOn": [
-                "Build + DSK",
-                "Lanzar WinAPE (autorun)"
-            ],
-            "problemMatcher": []
-        },
-        {
             "label": "Crear DSK",
             "type": "shell",
             "command": "bash",
@@ -74,21 +65,25 @@
                 "${workspaceFolder}/scripts/launch_winape.sh"
             ],
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "WINAPE_EXE": "/home/isidro/Datos/Z80/cpctelera/cpctelera/tools/winape/WinApe.exe"
+                }
             },
             "problemMatcher": []
         },
         {
-            "label": "Lanzar WinAPE (autorun)",
+            "label": "Build + DSK + WinAPE (autorun)",
             "type": "shell",
             "command": "bash",
             "args": [
-                "${workspaceFolder}/scripts/launch_winape.sh"
+                "-lc",
+                "bash \"${workspaceFolder}/scripts/build_all.sh\" && WINAPE_AUTORUN=1 bash \"${workspaceFolder}/scripts/launch_winape.sh\""
             ],
             "options": {
                 "cwd": "${workspaceFolder}",
                 "env": {
-                    "WINAPE_AUTORUN": "1"
+                    "WINAPE_EXE": "/home/isidro/Datos/Z80/cpctelera/cpctelera/tools/winape/WinApe.exe"
                 }
             },
             "problemMatcher": []
