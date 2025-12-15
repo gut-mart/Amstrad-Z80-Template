@@ -54,21 +54,6 @@
             "problemMatcher": []
         },
         {
-            "label": "Lanzar WinAPE (solo)",
-            "type": "shell",
-            "command": "bash",
-            "args": [
-                "${workspaceFolder}/scripts/launch_winape.sh"
-            ],
-            "options": {
-                "cwd": "${workspaceFolder}",
-                "env": {
-                    "WINAPE_EXE": "/home/isidro/Datos/Z80/cpctelera/cpctelera/tools/winape/WinApe.exe"
-                }
-            },
-            "problemMatcher": []
-        },
-        {
             "label": "Build + DSK + WinAPE (autorun)",
             "type": "shell",
             "command": "bash",
@@ -88,10 +73,20 @@
             "label": "Lanzar WinAPE",
             "dependsOrder": "sequence",
             "dependsOn": [
-                "Build + DSK",
-                "Lanzar WinAPE (solo)"
+                "Build + DSK"
             ],
-            "problemMatcher": []
+            "problemMatcher": [],
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "${workspaceFolder}/scripts/launch_winape.sh"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "WINAPE_EXE": "/home/isidro/Datos/Z80/cpctelera/cpctelera/tools/winape/WinApe.exe"
+                }
+            }
         }
     ]
 }
