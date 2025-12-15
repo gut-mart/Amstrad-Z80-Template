@@ -42,18 +42,6 @@
             "problemMatcher": []
         },
         {
-            "label": "Crear DSK",
-            "type": "shell",
-            "command": "bash",
-            "args": [
-                "${workspaceFolder}/scripts/create_dsk.sh"
-            ],
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "problemMatcher": []
-        },
-        {
             "label": "Build + DSK + WinAPE (autorun)",
             "type": "shell",
             "command": "bash",
