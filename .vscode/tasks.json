@@ -4,14 +4,10 @@
         {
             "label": "Ensamblar con sjasmplus",
             "type": "shell",
-            "command": "sjasmplus",
+            "command": "bash",
             "args": [
-                "--fullpath",
-                "${workspaceFolder}/src/main.asm",
-                "--raw=${workspaceFolder}/build/main.bin",
-                "--lst=${workspaceFolder}/build/main.lst",
-                "--sym=${workspaceFolder}/build/main.sym",
-                "--sld=${workspaceFolder}/build/main.sld"
+                "-lc",
+                "mkdir -p \"${workspaceFolder}/build\" && sjasmplus --fullpath \"${workspaceFolder}/src/main.asm\" --raw=\"${workspaceFolder}/build/main.bin\" --lst=\"${workspaceFolder}/build/main.lst\" --sym=\"${workspaceFolder}/build/main.sym\" --sld=\"${workspaceFolder}/build/main.sld\""
             ],
             "group": {
                 "kind": "build",
@@ -58,7 +54,7 @@
             "problemMatcher": []
         },
         {
-            "label": "Lanzar WinAPE",
+            "label": "Lanzar WinAPE (solo)",
             "type": "shell",
             "command": "bash",
             "args": [
@@ -86,6 +82,15 @@
                     "WINAPE_EXE": "/home/isidro/Datos/Z80/cpctelera/cpctelera/tools/winape/WinApe.exe"
                 }
             },
+            "problemMatcher": []
+        },
+        {
+            "label": "Lanzar WinAPE",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Build + DSK",
+                "Lanzar WinAPE (solo)"
+            ],
             "problemMatcher": []
         }
     ]
